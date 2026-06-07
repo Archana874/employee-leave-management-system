@@ -230,6 +230,6 @@ Screenshots of major application screens are included in the screenshots folder.
 
 ## Author
 
-Archana Ramesh
+Archana K R
 
 Employee Leave Management System Assignment Submission
