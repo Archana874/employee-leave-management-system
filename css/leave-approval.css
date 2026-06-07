@@ -1,0 +1,39 @@
+body{
+    background:#f5f7fa;
+}
+
+.card{
+    border:none;
+}
+
+.table th{
+    text-align:center;
+}
+
+.table td{
+    vertical-align:middle;
+}
+
+.approve-btn{
+    background:#198754;
+    color:white;
+    border:none;
+    padding:6px 12px;
+    border-radius:6px;
+}
+
+.approve-btn:hover{
+    background:#157347;
+}
+
+.reject-btn{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:6px 12px;
+    border-radius:6px;
+}
+
+.reject-btn:hover{
+    background:#bb2d3b;
+}
