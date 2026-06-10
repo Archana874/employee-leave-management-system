@@ -50,95 +50,95 @@ elseif($action == 'apply'){
     ){
         echo "End date cannot be earlier than Start Date";
         exit;
-    }
-$balanceSql = "
-SELECT available_days
-FROM leave_balance
-WHERE employee_id='$employeeId'
-AND leave_type_id='$leaveType'
-";
-
-$balanceResult =
-mysqli_query($conn,$balanceSql);
-
-$balance =
-mysqli_fetch_assoc($balanceResult);
-
-if(!$balance){
-
-    echo "Leave Balance Not Configured";
-    exit;
-}
-
-if(
-    $totalDays >
-    $balance['available_days']
-){
-    echo "Insufficient Leave Balance";
-    exit;
-}
-   
-    $overlapSql = "
-    SELECT *
-    FROM leave_requests
+        }
+    $balanceSql = "
+    SELECT available_days
+    FROM leave_balance
     WHERE employee_id='$employeeId'
-    AND
+    AND leave_type_id='$leaveType'
+    ";
+
+    $balanceResult =
+    mysqli_query($conn,$balanceSql);
+
+    $balance =
+    mysqli_fetch_assoc($balanceResult);
+
+    if(!$balance){
+
+        echo "Leave Balance Not Configured";
+        exit;
+    }
+
+    if(
+        $totalDays >
+        $balance['available_days']
+    ){
+        echo "Insufficient Leave Balance";
+        exit;
+    }
+    
+        $overlapSql = "
+        SELECT *
+        FROM leave_requests
+        WHERE employee_id='$employeeId'
+        AND
+        (
+            '$startDate'
+            BETWEEN start_date
+            AND end_date
+
+            OR
+
+            '$endDate'
+            BETWEEN start_date
+            AND end_date
+        )
+        ";
+
+        $overlapResult =
+        mysqli_query($conn,$overlapSql);
+
+        if(
+            mysqli_num_rows($overlapResult) > 0
+        ){
+            echo "Overlapping Leave Exists";
+            exit;
+        }
+    $insertSql = "
+    INSERT INTO leave_requests
     (
-        '$startDate'
-        BETWEEN start_date
-        AND end_date
-
-        OR
-
-        '$endDate'
-        BETWEEN start_date
-        AND end_date
+        employee_id,
+        leave_type_id,
+        start_date,
+        end_date,
+        total_days,
+        reason
+    )
+    VALUES
+    (
+        '$employeeId',
+        '$leaveType',
+        '$startDate',
+        '$endDate',
+        '$totalDays',
+        '$reason'
     )
     ";
 
-    $overlapResult =
-    mysqli_query($conn,$overlapSql);
+    if(mysqli_query($conn, $insertSql)){
 
-    if(
-        mysqli_num_rows($overlapResult) > 0
-    ){
-        echo "Overlapping Leave Exists";
-        exit;
+        addAuditLog(
+            $conn,
+            $_SESSION['user_id'],
+            'Applied Leave Request'
+        );
+
+        echo "Leave Applied Successfully";
+
+    }else{
+
+        echo mysqli_error($conn);
+
     }
-$insertSql = "
-INSERT INTO leave_requests
-(
-    employee_id,
-    leave_type_id,
-    start_date,
-    end_date,
-    total_days,
-    reason
-)
-VALUES
-(
-    '$employeeId',
-    '$leaveType',
-    '$startDate',
-    '$endDate',
-    '$totalDays',
-    '$reason'
-)
-";
-
-if(mysqli_query($conn, $insertSql)){
-
-    addAuditLog(
-        $conn,
-        $_SESSION['user_id'],
-        'Applied Leave Request'
-    );
-
-    echo "Leave Applied Successfully";
-
-}else{
-
-    echo mysqli_error($conn);
-
-}
-}
+    }

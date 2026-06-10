@@ -1,18 +1,18 @@
 loadHistory();
 
-function loadHistory(){
+function loadHistory() {
 
     let status =
-    document.getElementById("statusFilter").value;
+        document.getElementById("statusFilter").value;
 
     let leaveType =
-    document.getElementById("leaveTypeFilter").value;
+        document.getElementById("leaveTypeFilter").value;
 
     let fromDate =
-    document.getElementById("fromDate").value;
+        document.getElementById("fromDate").value;
 
     let toDate =
-    document.getElementById("toDate").value;
+        document.getElementById("toDate").value;
 
     fetch(
         "../php/leave_history.php?action=get"
@@ -22,12 +22,12 @@ function loadHistory(){
         + "&to_date=" + toDate
     )
 
-    .then(res => res.json())
-    .then(showHistory);
+        .then(res => res.json())
+        .then(showHistory);
 
 }
 
-function showHistory(data){
+function showHistory(data) {
 
     let rows = "";
 
@@ -49,13 +49,12 @@ function showHistory(data){
             <td>${row.created_at}</td>
 
             <td>
-                <span class="${
-                    row.status === 'Approved'
-                    ? 'status-approved'
-                    : row.status === 'Rejected'
+                <span class="${row.status === 'Approved'
+                ? 'status-approved'
+                : row.status === 'Rejected'
                     ? 'status-rejected'
                     : 'status-pending'
-                }">
+            }">
 
                 ${row.status}
 
@@ -70,23 +69,23 @@ function showHistory(data){
     });
 
     document
-    .getElementById("historyTable")
-    .innerHTML = rows;
+        .getElementById("historyTable")
+        .innerHTML = rows;
 
 }
 
 document
-.getElementById("statusFilter")
-.addEventListener("change", loadHistory);
+    .getElementById("statusFilter")
+    .addEventListener("change", loadHistory);
 
 document
-.getElementById("leaveTypeFilter")
-.addEventListener("change", loadHistory);
+    .getElementById("leaveTypeFilter")
+    .addEventListener("change", loadHistory);
 
 document
-.getElementById("fromDate")
-.addEventListener("change", loadHistory);
+    .getElementById("fromDate")
+    .addEventListener("change", loadHistory);
 
 document
-.getElementById("toDate")
-.addEventListener("change", loadHistory);
+    .getElementById("toDate")
+    .addEventListener("change", loadHistory);

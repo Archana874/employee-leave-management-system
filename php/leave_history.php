@@ -12,8 +12,8 @@ if($action == 'get'){
 
     $status = $_GET['status'] ?? '';
     $leaveType = $_GET['leave_type'] ?? '';
-$fromDate = $_GET['from_date'] ?? '';
-$toDate = $_GET['to_date'] ?? '';
+    $fromDate = $_GET['from_date'] ?? '';
+    $toDate = $_GET['to_date'] ?? '';
 
     $sql = "
     SELECT
@@ -31,37 +31,37 @@ $toDate = $_GET['to_date'] ?? '';
         AND leave_requests.status = '$status'
         ";
     }
-if($leaveType != ''){
+    if($leaveType != ''){
 
-    $sql .= "
-    AND leave_types.leave_name = '$leaveType'
-    ";
-}
-
-if($fromDate != ''){
-
-    $sql .= "
-    AND leave_requests.start_date >= '$fromDate'
-    ";
-}
-
-if($toDate != ''){
-
-    $sql .= "
-    AND leave_requests.end_date <= '$toDate'
-    ";
-}
-    $sql .= "
-    ORDER BY leave_requests.id DESC
-    ";
-
-    $result = mysqli_query($conn,$sql);
-
-    $data = [];
-
-    while($row = mysqli_fetch_assoc($result)){
-        $data[] = $row;
+        $sql .= "
+        AND leave_types.leave_name = '$leaveType'
+        ";
     }
 
-    echo json_encode($data);
-}
+    if($fromDate != ''){
+
+        $sql .= "
+        AND leave_requests.start_date >= '$fromDate'
+        ";
+    }
+
+    if($toDate != ''){
+
+        $sql .= "
+        AND leave_requests.end_date <= '$toDate'
+        ";
+    }
+        $sql .= "
+        ORDER BY leave_requests.id DESC
+        ";
+
+        $result = mysqli_query($conn,$sql);
+
+        $data = [];
+
+        while($row = mysqli_fetch_assoc($result)){
+            $data[] = $row;
+        }
+
+        echo json_encode($data);
+    }

@@ -1,16 +1,16 @@
 loadRequests();
 
-function loadRequests(){
+function loadRequests() {
 
     fetch(
         "../php/leave_approval.php?action=get"
     )
-    .then(res => res.json())
-    .then(showRequests);
+        .then(res => res.json())
+        .then(showRequests);
 
 }
 
-function showRequests(data){
+function showRequests(data) {
 
     let rows = "";
 
@@ -18,7 +18,7 @@ function showRequests(data){
 
         let actionButtons = "";
 
-        if(request.status == "Pending"){
+        if (request.status == "Pending") {
 
             actionButtons = `
             
@@ -75,11 +75,11 @@ function showRequests(data){
     });
 
     document
-    .getElementById("approvalTable")
-    .innerHTML = rows;
+        .getElementById("approvalTable")
+        .innerHTML = rows;
 
 }
-function approveLeave(id){
+function approveLeave(id) {
 
     Swal.fire({
 
@@ -93,51 +93,51 @@ function approveLeave(id){
 
     })
 
-    .then(result => {
+        .then(result => {
 
-        if(result.isConfirmed){
+            if (result.isConfirmed) {
 
-            let formData =
-            new FormData();
+                let formData =
+                    new FormData();
 
-            formData.append(
-                "action",
-                "approve"
-            );
-
-            formData.append(
-                "id",
-                id
-            );
-
-            fetch(
-                "../php/leave_approval.php",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            )
-
-            .then(res => res.text())
-
-            .then(data => {
-
-                Swal.fire(
-                    "Success",
-                    data,
-                    "success"
+                formData.append(
+                    "action",
+                    "approve"
                 );
 
-                loadRequests();
+                formData.append(
+                    "id",
+                    id
+                );
 
-            });
+                fetch(
+                    "../php/leave_approval.php",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                )
 
-        }
+                    .then(res => res.text())
 
-    });
+                    .then(data => {
+
+                        Swal.fire(
+                            "Success",
+                            data,
+                            "success"
+                        );
+
+                        loadRequests();
+
+                    });
+
+            }
+
+        });
 
 }
-function rejectLeave(id){
+function rejectLeave(id) {
 
     Swal.fire({
 
@@ -148,84 +148,84 @@ function rejectLeave(id){
         inputLabel: "Remarks",
 
         inputPlaceholder:
-        "Enter rejection remarks",
+            "Enter rejection remarks",
 
         showCancelButton: true
 
     })
 
-    .then(result => {
+        .then(result => {
 
-        if(result.isConfirmed){
+            if (result.isConfirmed) {
 
-            let formData =
-            new FormData();
+                let formData =
+                    new FormData();
 
-            formData.append(
-                "action",
-                "reject"
-            );
-
-            formData.append(
-                "id",
-                id
-            );
-
-            formData.append(
-                "remarks",
-                result.value
-            );
-
-            fetch(
-                "../php/leave_approval.php",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            )
-
-            .then(res => res.text())
-
-            .then(data => {
-
-                Swal.fire(
-                    "Success",
-                    data,
-                    "success"
+                formData.append(
+                    "action",
+                    "reject"
                 );
 
-                loadRequests();
+                formData.append(
+                    "id",
+                    id
+                );
 
-            });
+                formData.append(
+                    "remarks",
+                    result.value
+                );
 
-        }
+                fetch(
+                    "../php/leave_approval.php",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                )
 
-    });
+                    .then(res => res.text())
+
+                    .then(data => {
+
+                        Swal.fire(
+                            "Success",
+                            data,
+                            "success"
+                        );
+
+                        loadRequests();
+
+                    });
+
+            }
+
+        });
 
 }
 document
-.getElementById("search")
-.addEventListener("keyup", function(){
+    .getElementById("search")
+    .addEventListener("keyup", function () {
 
-    let keyword =
-    this.value.toLowerCase();
+        let keyword =
+            this.value.toLowerCase();
 
-    let rows =
-    document.querySelectorAll(
-        "#approvalTable tr"
-    );
+        let rows =
+            document.querySelectorAll(
+                "#approvalTable tr"
+            );
 
-    rows.forEach(row => {
+        rows.forEach(row => {
 
-        row.style.display =
-        row.innerText
-        .toLowerCase()
-        .includes(keyword)
+            row.style.display =
+                row.innerText
+                    .toLowerCase()
+                    .includes(keyword)
 
-        ? ""
+                    ? ""
 
-        : "none";
+                    : "none";
+
+        });
 
     });
-
-});

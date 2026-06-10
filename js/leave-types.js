@@ -1,16 +1,16 @@
 loadLeaveTypes();
 
-function loadLeaveTypes(){
+function loadLeaveTypes() {
 
     fetch("../php/leave_type.php?action=get")
 
-    .then(res => res.json())
+        .then(res => res.json())
 
-    .then(showLeaveTypes);
+        .then(showLeaveTypes);
 
 }
 
-function showLeaveTypes(data){
+function showLeaveTypes(data) {
 
     let rows = "";
 
@@ -44,14 +44,14 @@ ${leave.default_allocation}
     });
 
     document
-    .getElementById("leaveTable")
-    .innerHTML = rows;
+        .getElementById("leaveTable")
+        .innerHTML = rows;
 }
 function editLeave(
     id,
     leaveName,
     allocation
-){
+) {
 
     Swal.fire({
 
@@ -79,10 +79,10 @@ function editLeave(
             return {
 
                 leaveName:
-                document.getElementById("leaveName").value,
+                    document.getElementById("leaveName").value,
 
                 allocation:
-                document.getElementById("allocation").value
+                    document.getElementById("allocation").value
 
             };
 
@@ -90,10 +90,10 @@ function editLeave(
 
     }).then(result => {
 
-        if(result.isConfirmed){
+        if (result.isConfirmed) {
 
             let formData =
-            new FormData();
+                new FormData();
 
             formData.append(
                 "action",
@@ -118,24 +118,24 @@ function editLeave(
             fetch(
                 "../php/leave_type.php",
                 {
-                    method:"POST",
-                    body:formData
+                    method: "POST",
+                    body: formData
                 }
             )
 
-            .then(res => res.text())
+                .then(res => res.text())
 
-            .then(data => {
+                .then(data => {
 
-                Swal.fire(
-                    "Success",
-                    data,
-                    "success"
-                );
+                    Swal.fire(
+                        "Success",
+                        data,
+                        "success"
+                    );
 
-                loadLeaveTypes();
+                    loadLeaveTypes();
 
-            });
+                });
 
         }
 

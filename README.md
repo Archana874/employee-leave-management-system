@@ -118,43 +118,18 @@ http://localhost/leave-management-system/html/Login.html
 
 ### Admin
 
-Email:
-
-
-admin@test.com
-
-
-Password:
-
-
-password
-
+Email:admin@test.com
+Password:password
 
 ### Manager
 
-Email:
-
-
-manager@test.com
-
-
-Password:
-
-
-password
-
+Email:manager@test.com
+Password:password
 
 ### Employee
 
-Email:
-
-
-john@mail.com
-
-
-Password:
-
-password
+Email:john@mail.com
+Password:password
 
 Note: Update credentials according to the records available in your SQL file.
 

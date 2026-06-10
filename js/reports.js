@@ -1,25 +1,25 @@
 loadReports();
 
-function loadReports(status = ""){
+function loadReports(status = "") {
 
-fetch(
-"../php/reports.php?action=get&status="
-+ status
-)
+    fetch(
+        "../php/reports.php?action=get&status="
+        + status
+    )
 
-.then(res => res.json())
+        .then(res => res.json())
 
-.then(showReports);
+        .then(showReports);
 
 }
 
-function showReports(data){
+function showReports(data) {
 
-let rows = "";
+    let rows = "";
 
-data.forEach(report => {
+    data.forEach(report => {
 
-rows += `
+        rows += `
 <tr>
 
 <td>${report.employee_name}</td>
@@ -47,44 +47,44 @@ rows += `
 </tr>
 `;
 
-});
+    });
 
-document
-.getElementById("reportTable")
-.innerHTML = rows;
+    document
+        .getElementById("reportTable")
+        .innerHTML = rows;
 
 }
 
 document
-.getElementById("statusFilter")
-.addEventListener(
-"change",
-function(){
+    .getElementById("statusFilter")
+    .addEventListener(
+        "change",
+        function () {
 
-loadReports(this.value);
+            loadReports(this.value);
 
-});
+        });
 document
-.getElementById("search")
-.addEventListener("keyup", function(){
+    .getElementById("search")
+    .addEventListener("keyup", function () {
 
-    let keyword =
-    this.value.toLowerCase();
+        let keyword =
+            this.value.toLowerCase();
 
-    let rows =
-    document.querySelectorAll("#reportTable tr");
+        let rows =
+            document.querySelectorAll("#reportTable tr");
 
-    rows.forEach(row => {
+        rows.forEach(row => {
 
-        row.style.display =
-        row.innerText
-        .toLowerCase()
-        .includes(keyword)
+            row.style.display =
+                row.innerText
+                    .toLowerCase()
+                    .includes(keyword)
 
-        ? ""
+                    ? ""
 
-        : "none";
+                    : "none";
+
+        });
 
     });
-
-});
